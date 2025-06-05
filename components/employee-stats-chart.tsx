@@ -2,42 +2,55 @@
 
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { employeeData } from "@/lib/data"
 
-export default function EmployeeStatsChart() {
+interface Employee {
+  id: number
+  name: string
+  department: string
+  "Red Flag": number
+  Onhold: number
+  "Assisted Ticket": number
+  Late: number
+}
+
+interface EmployeeStatsChartProps {
+  data?: Employee[]
+}
+
+export default function EmployeeStatsChart({ data }: EmployeeStatsChartProps) {
   return (
     <ChartContainer
       config={{
         "Red Flag": {
           label: "Red Flag",
-          color: "hsl(var(--chart-1))",
+          color: "#dc2626",
         },
         Onhold: {
           label: "Onhold",
-          color: "hsl(var(--chart-2))",
+          color: "#eab308",
         },
         "Assisted Ticket": {
           label: "Assisted Ticket",
-          color: "hsl(var(--chart-3))",
+          color: "#00ff00",
         },
         Late: {
           label: "Late",
-          color: "hsl(var(--chart-4))",
+          color: "#2563eb",
         },
       }}
-      className="h-[400px]"
+      className="h-[500px] w-full"
     >
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={employeeData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
-          <CartesianGrid strokeDasharray="3 3" />
+        <BarChart data={data} margin={{ top: 20, right: 20, left: 10, bottom: 80 }} barCategoryGap="10%">
+          <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
           <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} tick={{ fontSize: 10 }} interval={0} />
-          <YAxis domain={[0, 100]} />
+          <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} width={40} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Legend />
-          <Bar dataKey="Red Flag" fill="var(--color-Red Flag)" />
-          <Bar dataKey="Onhold" fill="var(--color-Onhold)" />
-          <Bar dataKey="Assisted Ticket" fill="var(--color-Assisted Ticket)" />
-          <Bar dataKey="Late" fill="var(--color-Late)" />
+          <Legend wrapperStyle={{ paddingTop: "20px" }} iconType="rect" />
+          <Bar dataKey="Red Flag" fill="#dc2626" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="Onhold" fill="#eab308" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="Assisted Ticket" fill="#00ff00" radius={[2, 2, 0, 0]} />
+          <Bar dataKey="Late" fill="#2563eb" radius={[2, 2, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </ChartContainer>
